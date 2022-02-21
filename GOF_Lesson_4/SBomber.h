@@ -8,6 +8,16 @@
 #include "Ground.h"
 #include "Tank.h"
 
+class SBomber;
+
+class CollisionDetector
+{
+public:
+	void CheckPlaneAndLevelGUI(SBomber* obj);
+	void CheckBombsAndGround(SBomber* obj);
+	void __fastcall CheckDestoyableObjects(Bomb* pBomb, SBomber* obj);
+};
+
 class SBomber
 {
 public:
@@ -26,11 +36,6 @@ public:
     void CheckObjects();
 
 private:
-
-    void CheckPlaneAndLevelGUI();
-    void CheckBombsAndGround();
-    void __fastcall CheckDestoyableObjects(Bomb* pBomb);
-
     void __fastcall DeleteDynamicObj(DynamicObject * pBomb);
     void __fastcall DeleteStaticObj(GameObject* pObj);
 
@@ -42,6 +47,8 @@ private:
 
     void DropBomb();
 
+	CollisionDetector colDet;
+
     std::vector<DynamicObject*> vecDynamicObj;
     std::vector<GameObject*> vecStaticObj;
     
@@ -50,4 +57,6 @@ private:
     uint64_t startTime, finishTime, passedTime;
     uint16_t bombsNumber, deltaTime, fps;
     int16_t score;
+
+	friend class CollisionDetector;
 };
